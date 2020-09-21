@@ -1,16 +1,12 @@
 import uuid from 'uuid/v4'
 import {
   buildEvent,
-  validateEvent,
   formatEvent
 } from './pipeline'
 
 function assignUniqueId(event) {
   event.uid = event.uid || uuid()
   return event
-}
-function validateAndBuildEvent(event) {
-  return validateEvent(buildEvent(event))
 }
 
 function applyInitialFormatting({ error, value }) {
@@ -60,7 +56,7 @@ export function createEvent (attributes, cb) {
 
   if (!cb) {
     // No callback, so return error or value in an object
-    const { error, value } = validateAndBuildEvent(attributes)
+    const { error, value } = buildEvent(attributes)
 
     if (error) return { error, value }
 
@@ -76,7 +72,7 @@ export function createEvent (attributes, cb) {
   }
 
   // Return a node-style callback
-  const { error, value } = validateAndBuildEvent(attributes)
+  const { error, value } = buildEvent(attributes)
 
   if (error) return cb(error)
 
@@ -93,7 +89,7 @@ export function createEvents (events, cb) {
   }
 
   const { error, value } = events.map(assignUniqueId)
-    .map(validateAndBuildEvent)
+    .map(buildEvent)
     .map(applyInitialFormatting)
     .map(reformatEventsByPosition)
     .reduce(catenateEvents, { error: null, value: null })

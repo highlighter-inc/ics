@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { validateEvent } from '../../src/pipeline'
+import validateEvent from '../schema/index'
 
 describe('pipeline.validate', () => {
   it('validates an event', () => {
