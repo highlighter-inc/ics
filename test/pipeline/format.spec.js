@@ -42,18 +42,6 @@ describe('pipeline.formatEvent', () => {
     const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
   })
-  it('writes a start date-time, taking the given date as local by default and outputting is as UTC if requested', () => {
-    const event = buildEvent({ start: [2017, 5, 15, 10, 0], startOutputType: 'utc' })
-    const formattedEvent = formatEvent(event)
-    const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
-  })
-  it('writes a start date-time, taking the given date as local by default and outputting is as Local (floating) if requested', () => {
-    const event = buildEvent({ start: [2017, 5, 15, 10, 0], startOutputType: 'local' })
-    const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('DTSTART:20170515T100000')
-    expect(formattedEvent).to.not.contain('DTSTART:20170515T100000Z')
-  })
   it('writes a start date-time, taking the given date as local if requested and outputting is as UTC by default', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local' })
     const formattedEvent = formatEvent(event)
@@ -66,12 +54,6 @@ describe('pipeline.formatEvent', () => {
     const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
   })
-  it('writes a start date-time, taking the given date as local if requested and outputting is as Local (floating) if requested', () => {
-    const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local', startOutputType: 'local' })
-    const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('DTSTART:20170515T100000')
-    expect(formattedEvent).to.not.contain('DTSTART:20170515T100000Z')
-  })
   it('writes a start date-time, taking the given date as UTC if requested and outputting is as UTC by default', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'utc' })
     const formattedEvent = formatEvent(event)
@@ -81,13 +63,6 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'utc', startOutputType: 'utc' })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTSTART:20170515T100000Z')
-  })
-  it('writes a start date-time, taking the given date as UTC if requested and outputting is as Local (floating) if requested', () => {
-    const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'utc', startOutputType: 'local' })
-    const formattedEvent = formatEvent(event)
-    const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now)
-    expect(formattedEvent).to.not.contain('DTSTART:'+now+'Z')
   })
   it('writes a created timestamp', () => {
     const event = buildEvent({ created: [2017, 5, 15, 10, 0] })
