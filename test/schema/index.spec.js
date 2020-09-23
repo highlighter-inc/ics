@@ -1,12 +1,12 @@
 import { expect } from 'chai'
-import validateEvent from '../../src/schema'
+import validateEvent from './index'
 
 describe('.validateEvent', () => {
   describe('must have one and only one occurance of', () => {
     it('uid', () => {
       const { error } = validateEvent({ title: 'foo' })
       expect(error.details.some(p => p.message === '"uid" is required')).to.be.true
-    })  
+    })
 
     it('start', () => {
       const { error } = validateEvent({ title: 'foo', uid: 'foo' })
